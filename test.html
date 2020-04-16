@@ -1,11 +1,52 @@
 <html>
     <head>
         <title>Test application for Defaeco LMS</title>
-        <script src="index.js"></script>
+        <!-- <script src="index.js"></script> -->
         <script>
-            function testLMS(){
-                $lms.setup();
-            }
+            window.$lms = (function () {
+                var $lms = {};
+
+                $lms.userName = "Shruthi";
+                $lms.points = 0;
+
+                $lms.setup = function () {
+                    alert("Set up method is called");
+                }
+                $lms.orderCreated = function (orderAmount) {
+                    var loyalityPoints = orderAmount * (8 / 100);  // 200 * 0.08 = 16 
+                    $lms.updateUserPoints(loyalityPoints);
+                }
+                $lms.reedmPoints = function (howManyPoints) {
+                    if (howManyPoints < $lms.points) {
+                        $lms.points = $lms.points - howManyPoints;
+                    } else {
+                        alert("invalid Rdeem");
+                    }
+                }
+                $lms.updateUserPoints = function (howManyPoints) {
+                    $lms.points = $lms.points + howManyPoints;
+                }
+                $lms.getUserPoints = function () {
+                    return $lms.points;
+                }
+
+
+                return $lms;
+
+            }())
+        </script>
+        <script>
+            console.log("Creating order for 200rs");
+            $lms.orderCreated(200) //this memics order creation of 200 rs 
+            //when we execute this method it will add 16 points to user account
+
+            var points = $lms.getUserPoints();
+            console.log("User points is >>>>>",points)
+            //now reedem 5 points
+            $lms.reedmPoints(5);
+            points = $lms.getUserPoints();
+            console.log("User points after rdeem is >>>>>",points)
+
         </script>
     </head>
     <body>
